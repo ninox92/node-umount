@@ -15,6 +15,19 @@ exports.isWin32 = ->
 	return os.platform() is 'win32'
 
 ###*
+# @summary Check if operating system is OS X
+# @private
+# @function
+#
+# @returns {Boolean} whether the os is OS X
+#
+# @example
+# utils.isMacOSX()
+###
+exports.isMacOSX = ->
+	return os.platform() is 'darwin'
+
+###*
 # @summary Prefix a command with sudo
 # @private
 # @function

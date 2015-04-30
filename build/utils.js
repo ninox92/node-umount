@@ -22,6 +22,22 @@ exports.isWin32 = function() {
 
 
 /**
+ * @summary Check if operating system is OS X
+ * @private
+ * @function
+ *
+ * @returns {Boolean} whether the os is OS X
+ *
+ * @example
+ * utils.isMacOSX()
+ */
+
+exports.isMacOSX = function() {
+  return os.platform() === 'darwin';
+};
+
+
+/**
  * @summary Prefix a command with sudo
  * @private
  * @function
