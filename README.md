@@ -2,8 +2,8 @@ umount
 ------
 
 [![npm version](https://badge.fury.io/js/umount.svg)](http://badge.fury.io/js/umount)
-[![dependencies](https://david-dm.org/jviotti/umount.png)](https://david-dm.org/jviotti/umount.png)
-[![Build Status](https://travis-ci.org/jviotti/umount.svg?branch=master)](https://travis-ci.org/jviotti/umount)
+[![dependencies](https://david-dm.org/jviotti/node-umount.png)](https://david-dm.org/jviotti/node-umount.png)
+[![Build Status](https://travis-ci.org/jviotti/node-umount.svg?branch=master)](https://travis-ci.org/jviotti/node-umount)
 
 Unmount a device in UNIX, do nothing in Windows.
 
@@ -62,8 +62,8 @@ $ gulp test
 Contribute
 ----------
 
-- Issue Tracker: [github.com/jviotti/umount/issues](https://github.com/jviotti/umount/issues)
-- Source Code: [github.com/jviotti/umount](https://github.com/jviotti/umount)
+- Issue Tracker: [github.com/jviotti/node-umount/issues](https://github.com/jviotti/node-umount/issues)
+- Source Code: [github.com/jviotti/node-umount](https://github.com/jviotti/node-umount)
 
 Before submitting a PR, please make sure that you include tests, and that [coffeelint](http://www.coffeelint.org/) runs without any warning:
 
@@ -74,7 +74,7 @@ $ gulp lint
 Support
 -------
 
-If you're having any problem, please [raise an issue](https://github.com/jviotti/umount/issues/new) on GitHub.
+If you're having any problem, please [raise an issue](https://github.com/jviotti/node-umount/issues/new) on GitHub.
 
 License
 -------
