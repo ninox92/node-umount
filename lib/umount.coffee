@@ -13,14 +13,12 @@ settings = require('./settings')
 #
 # @param {String} device - device path
 # @param {Object} options - options
-# @param {String} [options.umount] - path to umount
 # @param {String} [options.sudo] - path to sudo
 # @param {Boolean} [options.noSudo] - don't use sudo
 # @param {Function} callback - callback (error, stdout, stderr)
 #
 # @example
 # umount.umount '/dev/disk2',
-#		umount: 'umount'
 #		sudo: 'sudo'
 #	, (error, stdout, stderr) ->
 #		throw error if error?
@@ -44,9 +42,6 @@ exports.umount = (device, options = {}, callback) ->
 	if options.sudo? and not _.isString(options.sudo)
 		throw new Error("Invalid sudo option: #{options.sudo}")
 
-	if options.umount? and not _.isString(options.umount)
-		throw new Error("Invalid umount option: #{options.umount}")
-
 	if options.noSudo? and not _.isBoolean(options.noSudo)
 		throw new Error("Invalid noSudo option: #{options.noSudo}")
 
@@ -61,5 +56,12 @@ exports.umount = (device, options = {}, callback) ->
 	return callback(null, null, null) if utils.isWin32()
 
 	_.defaults(options, settings)
-	command = utils.buildCommand(options.umount, [ device ], options)
+
+	if utils.isMacOSX()
+		unmountCommand = 'diskutil unmountDisk'
+	else
+		unmountCommand = 'umount'
+
+	command = utils.buildCommand(unmountCommand, [ device ], options)
+
 	return child_process.exec(command, callback)

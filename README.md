@@ -31,7 +31,6 @@ Unmount a device.
 The accepted options are:
 
 - `sudo`: Path to sudo (defaults to `sudo`).
-- `umount`: Path to umount (defaults to `umount`).
 - `noSudo`: Do not run the command with sudo (defaults to `false`).
 
 The callback gets three arguments: `(error, stdout, stderr)`.
@@ -43,7 +42,6 @@ umount = require('umount')
 
 umount.umount '/dev/disk2',
 	sudo: '/usr/bin/sudo'
-	umount: '/sbin/umount'
 	noSudo: false
 , (error, stdout, stderr) ->
 	throw error if error?

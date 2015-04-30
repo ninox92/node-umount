@@ -36,11 +36,6 @@ describe 'Umount:', ->
 			umount.umount('/dev/disk1', sudo: 123, _.noop)
 		.to.throw('Invalid sudo option: 123')
 
-	it 'should throw if options.umount is defined but not a string', ->
-		expect ->
-			umount.umount('/dev/disk1', umount: 123, _.noop)
-		.to.throw('Invalid umount option: 123')
-
 	it 'should throw if options.noSudo is defined but not a boolean', ->
 		expect ->
 			umount.umount('/dev/disk1', noSudo: 123, _.noop)
@@ -91,71 +86,87 @@ describe 'Umount:', ->
 		afterEach ->
 			@utilsIsWin32Stub.restore()
 
-		describe 'given no options parameter', ->
+		describe 'given is OS X', ->
 
-			it 'should umount the disk', (done) ->
+			beforeEach ->
+				@utilsIsMacOSXStub = sinon.stub(utils, 'isMacOSX')
+				@utilsIsMacOSXStub.returns(true)
+
+			afterEach ->
+				@utilsIsMacOSXStub.restore()
+
+			it 'use the correct command', (done) ->
 				umount.umount '/dev/disk2', (error, stdout, stderr) =>
 					expect(error).to.not.exist
 					expect(stdout).to.equal('stdout')
 					expect(stderr).to.equal('stderr')
 					expect(@childProcessExecStub).to.have.been.calledOnce
-					expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/disk2')
+					expect(@childProcessExecStub).to.have.been.calledWith('sudo diskutil unmountDisk /dev/disk2')
 					done()
 
-		describe 'given empty options', ->
+		describe 'given is not OS X', ->
 
-			it 'should umount the disk', (done) ->
-				umount.umount '/dev/disk2', {}, (error, stdout, stderr) =>
-					expect(error).to.not.exist
-					expect(stdout).to.equal('stdout')
-					expect(stderr).to.equal('stderr')
-					expect(@childProcessExecStub).to.have.been.calledOnce
-					expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/disk2')
-					done()
+			beforeEach ->
+				@utilsIsMacOSXStub = sinon.stub(utils, 'isMacOSX')
+				@utilsIsMacOSXStub.returns(false)
 
-		describe 'given no sudo option', ->
+			afterEach ->
+				@utilsIsMacOSXStub.restore()
 
-			it 'should omit sudo', (done) ->
-				umount.umount '/dev/disk2', noSudo: true, (error, stdout, stderr) =>
-					expect(error).to.not.exist
-					expect(stdout).to.equal('stdout')
-					expect(stderr).to.equal('stderr')
-					expect(@childProcessExecStub).to.have.been.calledOnce
-					expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/disk2')
-					done()
+			describe 'given no options parameter', ->
 
-		describe 'given a custom sudo option', ->
+				it 'should umount the disk', (done) ->
+					umount.umount '/dev/sdb', (error, stdout, stderr) =>
+						expect(error).to.not.exist
+						expect(stdout).to.equal('stdout')
+						expect(stderr).to.equal('stderr')
+						expect(@childProcessExecStub).to.have.been.calledOnce
+						expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb')
+						done()
 
-			it 'should use the custom sudo', (done) ->
-				umount.umount '/dev/disk2', sudo: '/usr/bin/sudo', (error, stdout, stderr) =>
-					expect(error).to.not.exist
-					expect(stdout).to.equal('stdout')
-					expect(stderr).to.equal('stderr')
-					expect(@childProcessExecStub).to.have.been.calledOnce
-					expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount /dev/disk2')
-					done()
+			describe 'given empty options', ->
 
-		describe 'given a custom sudo and no sudo options', ->
+				it 'should umount the disk', (done) ->
+					umount.umount '/dev/sdb', {}, (error, stdout, stderr) =>
+						expect(error).to.not.exist
+						expect(stdout).to.equal('stdout')
+						expect(stderr).to.equal('stderr')
+						expect(@childProcessExecStub).to.have.been.calledOnce
+						expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb')
+						done()
 
-			it 'should ignore the custom sudo', (done) ->
-				umount.umount '/dev/disk2',
-					sudo: '/usr/bin/sudo',
-					noSudo: true
-				, (error, stdout, stderr) =>
-					expect(error).to.not.exist
-					expect(stdout).to.equal('stdout')
-					expect(stderr).to.equal('stderr')
-					expect(@childProcessExecStub).to.have.been.calledOnce
-					expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/disk2')
-					done()
+			describe 'given no sudo option', ->
 
-		describe 'given a custom umount option', ->
+				it 'should omit sudo', (done) ->
+					umount.umount '/dev/sdb', noSudo: true, (error, stdout, stderr) =>
+						expect(error).to.not.exist
+						expect(stdout).to.equal('stdout')
+						expect(stderr).to.equal('stderr')
+						expect(@childProcessExecStub).to.have.been.calledOnce
+						expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb')
+						done()
 
-			it 'should use the custom umount', (done) ->
-				umount.umount '/dev/disk2', umount: '/usr/bin/umount', (error, stdout, stderr) =>
-					expect(error).to.not.exist
-					expect(stdout).to.equal('stdout')
-					expect(stderr).to.equal('stderr')
-					expect(@childProcessExecStub).to.have.been.calledOnce
-					expect(@childProcessExecStub).to.have.been.calledWith('sudo /usr/bin/umount /dev/disk2')
-					done()
+			describe 'given a custom sudo option', ->
+
+				it 'should use the custom sudo', (done) ->
+					umount.umount '/dev/sdb', sudo: '/usr/bin/sudo', (error, stdout, stderr) =>
+						expect(error).to.not.exist
+						expect(stdout).to.equal('stdout')
+						expect(stderr).to.equal('stderr')
+						expect(@childProcessExecStub).to.have.been.calledOnce
+						expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount /dev/sdb')
+						done()
+
+			describe 'given a custom sudo and no sudo options', ->
+
+				it 'should ignore the custom sudo', (done) ->
+					umount.umount '/dev/sdb',
+						sudo: '/usr/bin/sudo',
+						noSudo: true
+					, (error, stdout, stderr) =>
+						expect(error).to.not.exist
+						expect(stdout).to.equal('stdout')
+						expect(stderr).to.equal('stderr')
+						expect(@childProcessExecStub).to.have.been.calledOnce
+						expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb')
+						done()
