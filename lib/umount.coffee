@@ -62,6 +62,14 @@ exports.umount = (device, options = {}, callback) ->
 	else
 		unmountCommand = 'umount'
 
+	# If trying to unmount the raw device in Linux, we get:
+	# > umount: /dev/sdN: not mounted
+	# Therefore we use the ?* glob to make sure umount processes
+	# the partitions of sdN independently (even if they contain multiple digits)
+	# but not the raw device.
+	if utils.isLinux()
+		device += '?*'
+
 	command = utils.buildCommand(unmountCommand, [ device ], options)
 
 	return child_process.exec(command, callback)

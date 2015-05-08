@@ -28,6 +28,19 @@ exports.isMacOSX = ->
 	return os.platform() is 'darwin'
 
 ###*
+# @summary Check if operating system is Linux
+# @private
+# @function
+#
+# @returns {Boolean} whether the os is Linux
+#
+# @example
+# utils.isLinux()
+###
+exports.isLinux = ->
+	return os.platform() is 'linux'
+
+###*
 # @summary Prefix a command with sudo
 # @private
 # @function

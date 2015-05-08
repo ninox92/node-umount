@@ -1,8 +1,5 @@
 module.exports =
 
-	# Default umount command
-	umount: 'umount'
-
 	# Default sudo command
 	sudo: 'sudo'
 
