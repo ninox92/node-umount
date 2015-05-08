@@ -74,6 +74,13 @@ Support
 
 If you're having any problem, please [raise an issue](https://github.com/jviotti/node-umount/issues/new) on GitHub.
 
+ChangeLog
+---------
+
+### v1.0.1
+
+- Fix improper unmounting of multiple partitions in GNU/Linux.
+
 License
 -------
 
