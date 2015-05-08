@@ -5,17 +5,6 @@ settings = require('../lib/settings')
 
 describe 'Settings:', ->
 
-	describe '.umount', ->
-
-		it 'should exist', ->
-			expect(settings.umount).to.exist
-
-		it 'should be a string', ->
-			expect(settings.umount).to.be.a('string')
-
-		it 'should not be empty', ->
-			expect(settings.umount).to.not.have.length(0)
-
 	describe '.sudo', ->
 
 		it 'should exist', ->
