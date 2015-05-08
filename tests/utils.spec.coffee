@@ -60,6 +60,32 @@ describe 'Utils:', ->
 			it 'should return false', ->
 				expect(utils.isMacOSX()).to.be.false
 
+	describe '.isLinux()', ->
+
+		describe 'given the platform is linux', ->
+
+			beforeEach ->
+				@osPlatformStub = sinon.stub(os, 'platform')
+				@osPlatformStub.returns('linux')
+
+			afterEach ->
+				@osPlatformStub.restore()
+
+			it 'should return true', ->
+				expect(utils.isLinux()).to.be.true
+
+		describe 'given the platform is not linux', ->
+
+			beforeEach ->
+				@osPlatformStub = sinon.stub(os, 'platform')
+				@osPlatformStub.returns('darwin')
+
+			afterEach ->
+				@osPlatformStub.restore()
+
+			it 'should return false', ->
+				expect(utils.isLinux()).to.be.false
+
 	describe '.elevate()', ->
 
 		describe 'given a custom sudo path', ->

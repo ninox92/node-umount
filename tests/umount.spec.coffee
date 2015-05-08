@@ -1,3 +1,4 @@
+os = require('os')
 _ = require('lodash')
 child_process = require('child_process')
 chai = require('chai')
@@ -89,11 +90,11 @@ describe 'Umount:', ->
 		describe 'given is OS X', ->
 
 			beforeEach ->
-				@utilsIsMacOSXStub = sinon.stub(utils, 'isMacOSX')
-				@utilsIsMacOSXStub.returns(true)
+				@osPlatformStub = sinon.stub(os, 'platform')
+				@osPlatformStub.returns('darwin')
 
 			afterEach ->
-				@utilsIsMacOSXStub.restore()
+				@osPlatformStub.restore()
 
 			it 'use the correct command', (done) ->
 				umount.umount '/dev/disk2', (error, stdout, stderr) =>
@@ -104,14 +105,14 @@ describe 'Umount:', ->
 					expect(@childProcessExecStub).to.have.been.calledWith('sudo diskutil unmountDisk /dev/disk2')
 					done()
 
-		describe 'given is not OS X', ->
+		describe 'given is linux', ->
 
 			beforeEach ->
-				@utilsIsMacOSXStub = sinon.stub(utils, 'isMacOSX')
-				@utilsIsMacOSXStub.returns(false)
+				@osPlatformStub = sinon.stub(os, 'platform')
+				@osPlatformStub.returns('linux')
 
 			afterEach ->
-				@utilsIsMacOSXStub.restore()
+				@osPlatformStub.restore()
 
 			describe 'given no options parameter', ->
 
@@ -121,7 +122,7 @@ describe 'Umount:', ->
 						expect(stdout).to.equal('stdout')
 						expect(stderr).to.equal('stderr')
 						expect(@childProcessExecStub).to.have.been.calledOnce
-						expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb')
+						expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb?*')
 						done()
 
 			describe 'given empty options', ->
@@ -132,7 +133,7 @@ describe 'Umount:', ->
 						expect(stdout).to.equal('stdout')
 						expect(stderr).to.equal('stderr')
 						expect(@childProcessExecStub).to.have.been.calledOnce
-						expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb')
+						expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb?*')
 						done()
 
 			describe 'given no sudo option', ->
@@ -143,7 +144,7 @@ describe 'Umount:', ->
 						expect(stdout).to.equal('stdout')
 						expect(stderr).to.equal('stderr')
 						expect(@childProcessExecStub).to.have.been.calledOnce
-						expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb')
+						expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb?*')
 						done()
 
 			describe 'given a custom sudo option', ->
@@ -154,7 +155,7 @@ describe 'Umount:', ->
 						expect(stdout).to.equal('stdout')
 						expect(stderr).to.equal('stderr')
 						expect(@childProcessExecStub).to.have.been.calledOnce
-						expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount /dev/sdb')
+						expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount /dev/sdb?*')
 						done()
 
 			describe 'given a custom sudo and no sudo options', ->
@@ -168,5 +169,5 @@ describe 'Umount:', ->
 						expect(stdout).to.equal('stdout')
 						expect(stderr).to.equal('stderr')
 						expect(@childProcessExecStub).to.have.been.calledOnce
-						expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb')
+						expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb?*')
 						done()

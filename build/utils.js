@@ -38,6 +38,22 @@ exports.isMacOSX = function() {
 
 
 /**
+ * @summary Check if operating system is Linux
+ * @private
+ * @function
+ *
+ * @returns {Boolean} whether the os is Linux
+ *
+ * @example
+ * utils.isLinux()
+ */
+
+exports.isLinux = function() {
+  return os.platform() === 'linux';
+};
+
+
+/**
  * @summary Prefix a command with sudo
  * @private
  * @function
