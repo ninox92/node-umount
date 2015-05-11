@@ -8,7 +8,7 @@ settings = require('./settings')
 # @public
 # @function
 #
-# @describe
+# @description
 # It does nothing for Windows.
 #
 # @param {String} device - device path
@@ -73,3 +73,43 @@ exports.umount = (device, options = {}, callback) ->
 	command = utils.buildCommand(unmountCommand, [ device ], options)
 
 	return child_process.exec(command, callback)
+
+###*
+# @summary Check if a device is mounted
+# @public
+# @function
+#
+# @description
+# It always returns true in Windows.
+#
+# @param {String} device - device path
+# @param {Function} callback - callback (error, isMounted)
+#
+# @example
+# umount.isMounted '/dev/disk2', (error, isMounted) ->
+#		throw error if error?
+#		console.log("Is mounted? #{isMounted}")
+###
+exports.isMounted = (device, callback) ->
+
+	if not device?
+		throw new Error('Missing device')
+
+	if not _.isString(device)
+		throw new Error("Invalid device: #{device}")
+
+	if not callback?
+		throw new Error('Missing callback')
+
+	if not _.isFunction(callback)
+		throw new Error("Invalid callback: #{callback}")
+
+	return callback(null, true) if utils.isWin32()
+
+	child_process.exec 'mount', (error, stdout, stderr) ->
+		return callback(error) if error?
+
+		if not _.isEmpty(stderr)
+			return callback(new Error(stderr))
+
+		return callback(null, stdout.indexOf(device) isnt -1)

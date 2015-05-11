@@ -75,3 +75,18 @@ exports.umount = function(device, options, callback) {
   command = utils.buildCommand(unmountCommand, [device], options);
   return child_process.exec(command, callback);
 };
+
+exports.isMounted = function(device, callback) {
+  if (device == null) {
+    throw new Error('Missing device');
+  }
+  if (!_.isString(device)) {
+    throw new Error("Invalid device: " + device);
+  }
+  if (callback == null) {
+    throw new Error('Missing callback');
+  }
+  if (!_.isFunction(callback)) {
+    throw new Error("Invalid callback: " + callback);
+  }
+};
