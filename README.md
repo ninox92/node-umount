@@ -95,6 +95,10 @@ If you're having any problem, please [raise an issue](https://github.com/jviotti
 ChangeLog
 ---------
 
+### v1.1.0
+
+- Implement umount.isMounted() function.
+
 ### v1.0.1
 
 - Fix improper unmounting of multiple partitions in GNU/Linux.
