@@ -48,6 +48,24 @@ umount.umount '/dev/disk2',
 	console.log(stdout)
 ```
 
+### umount.isMounted(String device, Function callback)
+
+Check if a device is mounted.
+
+**Note:** This function always yields `true` in `win32`.
+
+The callback gets two arguments: `(error, isMounted)`.
+
+Example:
+
+```coffee
+umount = require('umount') 
+
+umount.isMounted '/dev/disk2', (error, isMounted) ->
+	throw error if error?
+	console.log("Is Mounted? #{isMounted}")
+```
+
 Tests
 -----
 
