@@ -124,7 +124,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb?*')
+							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb?* 2>/dev/null || /bin/true')
 							done()
 
 				describe 'given empty options', ->
@@ -135,7 +135,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb?*')
+							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb?* 2>/dev/null || /bin/true')
 							done()
 
 				describe 'given no sudo option', ->
@@ -146,7 +146,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb?*')
+							expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb?* 2>/dev/null || /bin/true')
 							done()
 
 				describe 'given a custom sudo option', ->
@@ -157,7 +157,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount /dev/sdb?*')
+							expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount /dev/sdb?* 2>/dev/null || /bin/true')
 							done()
 
 				describe 'given a custom sudo and no sudo options', ->
@@ -171,7 +171,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb?*')
+							expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb?* 2>/dev/null || /bin/true')
 							done()
 
 	describe '.isMounted()', ->

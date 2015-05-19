@@ -67,8 +67,13 @@ exports.umount = (device, options = {}, callback) ->
 	# Therefore we use the ?* glob to make sure umount processes
 	# the partitions of sdN independently (even if they contain multiple digits)
 	# but not the raw device.
+	# We also redirect stderr to /dev/null to ignore warnings
+	# if a device is already unmounted.
+	# Finally, we also wrap the command in a boolean expression
+	# that always evaluates to true to ignore the return code,
+	# which is non zero when a device was already unmounted.
 	if utils.isLinux()
-		device += '?*'
+		device += '?* 2>/dev/null || /bin/true'
 
 	command = utils.buildCommand(unmountCommand, [ device ], options)
 

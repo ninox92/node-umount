@@ -70,7 +70,7 @@ exports.umount = function(device, options, callback) {
     unmountCommand = 'umount';
   }
   if (utils.isLinux()) {
-    device += '?*';
+    device += '?* 2>/dev/null || /bin/true';
   }
   command = utils.buildCommand(unmountCommand, [device], options);
   return child_process.exec(command, callback);
