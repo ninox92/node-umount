@@ -14,7 +14,7 @@ settings = require('./settings');
  * @public
  * @function
  *
- * @describe
+ * @description
  * It does nothing for Windows.
  *
  * @param {String} device - device path
@@ -76,6 +76,24 @@ exports.umount = function(device, options, callback) {
   return child_process.exec(command, callback);
 };
 
+
+/**
+ * @summary Check if a device is mounted
+ * @public
+ * @function
+ *
+ * @description
+ * It always returns true in Windows.
+ *
+ * @param {String} device - device path
+ * @param {Function} callback - callback (error, isMounted)
+ *
+ * @example
+ * umount.isMounted '/dev/disk2', (error, isMounted) ->
+ *		throw error if error?
+ *		console.log("Is mounted? #{isMounted}")
+ */
+
 exports.isMounted = function(device, callback) {
   if (device == null) {
     throw new Error('Missing device');
@@ -89,4 +107,16 @@ exports.isMounted = function(device, callback) {
   if (!_.isFunction(callback)) {
     throw new Error("Invalid callback: " + callback);
   }
+  if (utils.isWin32()) {
+    return callback(null, true);
+  }
+  return child_process.exec('mount', function(error, stdout, stderr) {
+    if (error != null) {
+      return callback(error);
+    }
+    if (!_.isEmpty(stderr)) {
+      return callback(new Error(stderr));
+    }
+    return callback(null, stdout.indexOf(device) !== -1);
+  });
 };
