@@ -95,6 +95,10 @@ If you're having any problem, please [raise an issue](https://github.com/jviotti
 ChangeLog
 ---------
 
+### v1.1.1
+
+- Redirect Linux `umount` stderr output to /dev/null and ignore return code.
+
 ### v1.1.0
 
 - Implement umount.isMounted() function.
