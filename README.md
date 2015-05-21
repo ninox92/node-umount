@@ -4,6 +4,7 @@ umount
 [![npm version](https://badge.fury.io/js/umount.svg)](http://badge.fury.io/js/umount)
 [![dependencies](https://david-dm.org/jviotti/node-umount.png)](https://david-dm.org/jviotti/node-umount.png)
 [![Build Status](https://travis-ci.org/jviotti/node-umount.svg?branch=master)](https://travis-ci.org/jviotti/node-umount)
+[![Build status](https://ci.appveyor.com/api/projects/status/q90qlg6w6x3ifte1?svg=true)](https://ci.appveyor.com/project/jviotti/node-umount)
 
 Unmount a device in UNIX, do nothing in Windows.
 
