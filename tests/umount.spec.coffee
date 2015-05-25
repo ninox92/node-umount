@@ -196,22 +196,6 @@ describe 'Umount:', ->
 				umount.isMounted('/dev/disk1', 123)
 			.to.throw('Invalid callback: 123')
 
-		describe 'given an error', ->
-
-			beforeEach ->
-				@childProcessExecStub = sinon.stub(child_process, 'exec')
-				@error = new Error('mount error')
-				@childProcessExecStub.yields(@error)
-
-			afterEach ->
-				@childProcessExecStub.restore()
-
-			it 'should return the error', (done) ->
-				umount.isMounted '/dev/disk1', (error, isMounted) =>
-					expect(error).to.be.an.instanceof(Error)
-					expect(error).to.equal(@error)
-					done()
-
 		describe 'given is win32', ->
 
 			beforeEach ->
@@ -235,6 +219,22 @@ describe 'Umount:', ->
 
 			afterEach ->
 				@osPlatformStub.restore()
+
+			describe 'given an error', ->
+
+				beforeEach ->
+					@childProcessExecStub = sinon.stub(child_process, 'exec')
+					@error = new Error('mount error')
+					@childProcessExecStub.yields(@error)
+
+				afterEach ->
+					@childProcessExecStub.restore()
+
+				it 'should return the error', (done) ->
+					umount.isMounted '/dev/disk1', (error, isMounted) =>
+						expect(error).to.be.an.instanceof(Error)
+						expect(error).to.equal(@error)
+						done()
 
 			describe 'given stderr output', ->
 
@@ -286,6 +286,22 @@ describe 'Umount:', ->
 
 			afterEach ->
 				@osPlatformStub.restore()
+
+			describe 'given an error', ->
+
+				beforeEach ->
+					@childProcessExecStub = sinon.stub(child_process, 'exec')
+					@error = new Error('mount error')
+					@childProcessExecStub.yields(@error)
+
+				afterEach ->
+					@childProcessExecStub.restore()
+
+				it 'should return the error', (done) ->
+					umount.isMounted '/dev/sdb', (error, isMounted) =>
+						expect(error).to.be.an.instanceof(Error)
+						expect(error).to.equal(@error)
+						done()
 
 			describe 'given Ubuntu mount output', ->
 
