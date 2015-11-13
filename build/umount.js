@@ -66,6 +66,7 @@ exports.umount = function(device, options, callback) {
   _.defaults(options, settings);
   if (utils.isMacOSX()) {
     unmountCommand = 'diskutil unmountDisk';
+    options.noSudo = true;
   } else {
     unmountCommand = 'umount';
   }
