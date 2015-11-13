@@ -59,6 +59,9 @@ exports.umount = (device, options = {}, callback) ->
 
 	if utils.isMacOSX()
 		unmountCommand = 'diskutil unmountDisk'
+
+		# OS X doesn't require `sudo` to unmount disks
+		options.noSudo = true
 	else
 		unmountCommand = 'umount'
 
