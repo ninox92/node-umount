@@ -96,6 +96,10 @@ If you're having any problem, please [raise an issue](https://github.com/jviotti
 ChangeLog
 ---------
 
+### v1.1.2
+
+- Do not use `sudo` to unmount disks in OS X.
+
 ### v1.1.1
 
 - Redirect Linux `umount` stderr output to /dev/null and ignore return code.
