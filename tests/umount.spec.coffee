@@ -104,7 +104,7 @@ describe 'Umount:', ->
 						expect(stdout).to.equal('stdout')
 						expect(stderr).to.equal('stderr')
 						expect(@childProcessExecStub).to.have.been.calledOnce
-						expect(@childProcessExecStub).to.have.been.calledWith('diskutil unmountDisk /dev/disk2')
+						expect(@childProcessExecStub).to.have.been.calledWith('/usr/sbin/diskutil unmountDisk /dev/disk2')
 						done()
 
 			describe 'given is linux', ->
