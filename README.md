@@ -96,6 +96,10 @@ If you're having any problem, please [raise an issue](https://github.com/jviotti
 ChangeLog
 ---------
 
+### v1.1.4
+
+- Pass `force` to `diskutil unmountDisk` in OS X.
+
 ### v1.1.3
 
 - Call `/usr/sbin/diskutil` instead of just `diskutil` in OS X.
