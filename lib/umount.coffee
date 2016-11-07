@@ -65,6 +65,11 @@ exports.umount = (device, options = {}, callback) ->
 	else
 		unmountCommand = 'umount'
 
+	# Surround device in double quotes to avoid escaping issues
+	# when using this as a command line argument to the operating
+	# system specific unmount tools
+	device = "\"#{device}\""
+
 	# If trying to unmount the raw device in Linux, we get:
 	# > umount: /dev/sdN: not mounted
 	# Therefore we use the ?* glob to make sure umount processes
