@@ -70,6 +70,7 @@ exports.umount = function(device, options, callback) {
   } else {
     unmountCommand = 'umount';
   }
+  device = "\"" + device + "\"";
   if (utils.isLinux()) {
     device += '?* 2>/dev/null || /bin/true';
   }

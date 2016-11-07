@@ -104,7 +104,7 @@ describe 'Umount:', ->
 						expect(stdout).to.equal('stdout')
 						expect(stderr).to.equal('stderr')
 						expect(@childProcessExecStub).to.have.been.calledOnce
-						expect(@childProcessExecStub).to.have.been.calledWith('/usr/sbin/diskutil unmountDisk force /dev/disk2')
+						expect(@childProcessExecStub).to.have.been.calledWith('/usr/sbin/diskutil unmountDisk force "/dev/disk2"')
 						done()
 
 			describe 'given is linux', ->
@@ -124,7 +124,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb?* 2>/dev/null || /bin/true')
+							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount "/dev/sdb"?* 2>/dev/null || /bin/true')
 							done()
 
 				describe 'given empty options', ->
@@ -135,7 +135,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount /dev/sdb?* 2>/dev/null || /bin/true')
+							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount "/dev/sdb"?* 2>/dev/null || /bin/true')
 							done()
 
 				describe 'given no sudo option', ->
@@ -146,7 +146,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb?* 2>/dev/null || /bin/true')
+							expect(@childProcessExecStub).to.have.been.calledWith('umount "/dev/sdb"?* 2>/dev/null || /bin/true')
 							done()
 
 				describe 'given a custom sudo option', ->
@@ -157,7 +157,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount /dev/sdb?* 2>/dev/null || /bin/true')
+							expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount "/dev/sdb"?* 2>/dev/null || /bin/true')
 							done()
 
 				describe 'given a custom sudo and no sudo options', ->
@@ -171,7 +171,7 @@ describe 'Umount:', ->
 							expect(stdout).to.equal('stdout')
 							expect(stderr).to.equal('stderr')
 							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('umount /dev/sdb?* 2>/dev/null || /bin/true')
+							expect(@childProcessExecStub).to.have.been.calledWith('umount "/dev/sdb"?* 2>/dev/null || /bin/true')
 							done()
 
 	describe '.isMounted()', ->
@@ -260,7 +260,7 @@ describe 'Umount:', ->
 						devfs on /dev (devfs, local, nobrowse)
 						map -hosts on /net (autofs, nosuid, automounted, nobrowse)
 						map auto_home on /home (autofs, automounted, nobrowse)
-						/dev/disk2s1 on /Volumes/Untitled (msdos, local, nodev, nosuid, noowners)
+						/dev/disk2s1 on /Volumes/NO NAME (msdos, local, nodev, nosuid, noowners)
 					''', ''
 
 				afterEach ->
@@ -268,6 +268,12 @@ describe 'Umount:', ->
 
 				it 'should return true for /dev/disk2', (done) ->
 					umount.isMounted '/dev/disk2', (error, isMounted) ->
+						expect(error).to.not.exist
+						expect(isMounted).to.be.true
+						done()
+
+				it 'should return true for /Volumes/NO NAME', (done) ->
+					umount.isMounted '/Volumes/NO NAME', (error, isMounted) ->
 						expect(error).to.not.exist
 						expect(isMounted).to.be.true
 						done()
@@ -314,7 +320,7 @@ describe 'Umount:', ->
 						devpts on /dev/pts type devpts (rw,noexec,nosuid,gid=5,mode=0620)
 						tmpfs on /run type tmpfs (rw,noexec,nosuid,size=10%,mode=0755)
 						gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,user=jviotti)
-						/dev/sdb1 on /media/jviotti/CD8B-7D3E type vfat (rw,nosuid,nodev,uid,utf8=1,showexec,flush,uhelper=udisks2)
+						/dev/sdb1 on /media/jviotti/NO NAME type vfat (rw,nosuid,nodev,uid,utf8=1,showexec,flush,uhelper=udisks2)
 					'''
 
 				afterEach ->
@@ -322,6 +328,12 @@ describe 'Umount:', ->
 
 				it 'should return true for /dev/sdb', (done) ->
 					umount.isMounted '/dev/sdb', (error, isMounted) ->
+						expect(error).to.not.exist
+						expect(isMounted).to.be.true
+						done()
+
+				it 'should return true for /media/jviotti/NO NAME', (done) ->
+					umount.isMounted '/media/jviotti/NO NAME', (error, isMounted) ->
 						expect(error).to.not.exist
 						expect(isMounted).to.be.true
 						done()
