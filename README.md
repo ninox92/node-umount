@@ -96,6 +96,10 @@ If you're having any problem, please [raise an issue](https://github.com/jviotti
 ChangeLog
 ---------
 
+### v1.1.5
+
+- Escape device paths containing spaces.
+
 ### v1.1.4
 
 - Pass `force` to `diskutil unmountDisk` in OS X.
