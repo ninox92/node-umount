@@ -21,43 +21,23 @@ describe 'Umount:', ->
 
 		it 'should throw if no device', ->
 			expect ->
-				umount.umount(null, {}, _.noop)
+				umount.umount(null, _.noop)
 			.to.throw('Missing device')
 
 		it 'should throw if device is not a string', ->
 			expect ->
-				umount.umount(123, {}, _.noop)
+				umount.umount(123, _.noop)
 			.to.throw('Invalid device: 123')
-
-		it 'should throw if options is not an object', ->
-			expect ->
-				umount.umount('/dev/disk1', 123, _.noop)
-			.to.throw('Invalid options: 123')
-
-		it 'should throw if options.sudo is defined but not a string', ->
-			expect ->
-				umount.umount('/dev/disk1', sudo: 123, _.noop)
-			.to.throw('Invalid sudo option: 123')
-
-		it 'should throw if options.noSudo is defined but not a boolean', ->
-			expect ->
-				umount.umount('/dev/disk1', noSudo: 123, _.noop)
-			.to.throw('Invalid noSudo option: 123')
 
 		it 'should throw if no callback', ->
 			expect ->
-				umount.umount('/dev/disk1', {}, null)
+				umount.umount('/dev/disk1', null)
 			.to.throw('Missing callback')
 
 		it 'should throw if callback is not a function', ->
 			expect ->
-				umount.umount('/dev/disk1', {}, 123)
+				umount.umount('/dev/disk1', 123)
 			.to.throw('Invalid callback: 123')
-
-		it 'should throw if no options nor callback', ->
-			expect ->
-				umount.umount('/dev/disk1')
-			.to.throw('Missing callback')
 
 		describe 'given is win32', ->
 
@@ -115,64 +95,6 @@ describe 'Umount:', ->
 
 				afterEach ->
 					@osPlatformStub.restore()
-
-				describe 'given no options parameter', ->
-
-					it 'should umount the disk', (done) ->
-						umount.umount '/dev/sdb', (error, stdout, stderr) =>
-							expect(error).to.not.exist
-							expect(stdout).to.equal('stdout')
-							expect(stderr).to.equal('stderr')
-							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount "/dev/sdb"?* 2>/dev/null || /bin/true')
-							done()
-
-				describe 'given empty options', ->
-
-					it 'should umount the disk', (done) ->
-						umount.umount '/dev/sdb', {}, (error, stdout, stderr) =>
-							expect(error).to.not.exist
-							expect(stdout).to.equal('stdout')
-							expect(stderr).to.equal('stderr')
-							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('sudo umount "/dev/sdb"?* 2>/dev/null || /bin/true')
-							done()
-
-				describe 'given no sudo option', ->
-
-					it 'should omit sudo', (done) ->
-						umount.umount '/dev/sdb', noSudo: true, (error, stdout, stderr) =>
-							expect(error).to.not.exist
-							expect(stdout).to.equal('stdout')
-							expect(stderr).to.equal('stderr')
-							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('umount "/dev/sdb"?* 2>/dev/null || /bin/true')
-							done()
-
-				describe 'given a custom sudo option', ->
-
-					it 'should use the custom sudo', (done) ->
-						umount.umount '/dev/sdb', sudo: '/usr/bin/sudo', (error, stdout, stderr) =>
-							expect(error).to.not.exist
-							expect(stdout).to.equal('stdout')
-							expect(stderr).to.equal('stderr')
-							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('/usr/bin/sudo umount "/dev/sdb"?* 2>/dev/null || /bin/true')
-							done()
-
-				describe 'given a custom sudo and no sudo options', ->
-
-					it 'should ignore the custom sudo', (done) ->
-						umount.umount '/dev/sdb',
-							sudo: '/usr/bin/sudo',
-							noSudo: true
-						, (error, stdout, stderr) =>
-							expect(error).to.not.exist
-							expect(stdout).to.equal('stdout')
-							expect(stderr).to.equal('stderr')
-							expect(@childProcessExecStub).to.have.been.calledOnce
-							expect(@childProcessExecStub).to.have.been.calledWith('umount "/dev/sdb"?* 2>/dev/null || /bin/true')
-							done()
 
 	describe '.isMounted()', ->
 
