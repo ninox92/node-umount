@@ -25,14 +25,9 @@ $ npm install --save umount
 Documentation
 -------------
 
-### umount.umount(String device[, Object options], Function callback)
+### umount.umount(String device, Function callback)
 
 Unmount a device.
-
-The accepted options are:
-
-- `sudo`: Path to sudo (defaults to `sudo`).
-- `noSudo`: Do not run the command with sudo (defaults to `false`).
 
 The callback gets three arguments: `(error, stdout, stderr)`.
 
@@ -41,10 +36,7 @@ Example:
 ```coffee
 umount = require('umount') 
 
-umount.umount '/dev/disk2',
-	sudo: '/usr/bin/sudo'
-	noSudo: false
-, (error, stdout, stderr) ->
+umount.umount '/dev/disk2', (error, stdout, stderr) ->
 	throw error if error?
 	console.log(stdout)
 ```
