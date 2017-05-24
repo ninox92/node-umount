@@ -88,10 +88,6 @@ If you're having any problem, please [raise an issue](https://github.com/jviotti
 ChangeLog
 ---------
 
-### v1.1.6
-
-- Updated dependencies.
-
 ### v1.1.5
 
 - Escape device paths containing spaces.
