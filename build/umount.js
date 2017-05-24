@@ -1,4 +1,4 @@
-var child_process, utils, _;
+var _, child_process, utils;
 
 _ = require('lodash');
 
@@ -49,7 +49,7 @@ exports.umount = function(device, callback) {
   if (utils.isLinux()) {
     device += '?* 2>/dev/null || /bin/true';
   }
-  return child_process.exec("" + unmountCommand + " " + device, callback);
+  return child_process.exec(unmountCommand + " " + device, callback);
 };
 
 
